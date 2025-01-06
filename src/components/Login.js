@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode"
 import UserContext from "../UserContext";
+import { Link, useNavigate } from "react-router-dom"
+
 
 
 
@@ -13,6 +15,7 @@ const Login = () => {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const [showToast, setShowToast] = useState(false);
+    const navigate = useNavigate()
 
 
 
@@ -32,6 +35,9 @@ const Login = () => {
                 setMessage("Success to log in");
                 setError("")
                 setShowToast(true);
+                setTimeout(() => {
+                    navigate("/");
+                }, 2000);
             })
             .catch((error) => {
                 console.log(error)
@@ -48,20 +54,25 @@ const Login = () => {
         if (showToast) {
             const timer = setTimeout(() => {
                 setShowToast(false);
-            }, 3000); // Toast disappears after 3 seconds
+            }, 2000); // Toast disappears after 3 seconds
             return () => clearTimeout(timer); // Cleanup timer
         }
     }, [showToast]);
 
     return (
         <div>
+            <br></br>
+            <br></br>
             <div className="container mt-5">
                 <div className="trips-list">
                     <div className="card">
                         <div className="card-header">Login</div>
                         <div className="card-body">
                             {error && <div className="alert alert-danger">{error}</div>}
-                            <form onSubmit={doLogin}>
+                            <form onSubmit={(e) => {
+                                e.preventDefault();
+                                doLogin();
+                            }}>
                                 <div className="mb-3">
                                     <label htmlFor="userName" className="form-label">
                                         User Name
@@ -96,7 +107,7 @@ const Login = () => {
                                     {loading ? "Logging in..." : "Login"}
                                 </button>
                             </form>
-                            <p class="text-center mt-3">Don't have an account? <a href="/#">Sign Up</a></p>
+                            <p class="text-center mt-3">Don't have an account? <Link to="/register" className="text-primary"> sign up </Link></p>
                         </div>
                     </div>
                 </div>

@@ -1,16 +1,27 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { Link } from "react-router-dom"
+import UserContext from '../UserContext'
+
 
 function Navbar() {
+    const { login, setLogin } = useContext(UserContext)
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark fixed-top">
             <a className="navbar-brand" href="/#">Travel App</a>
             <div className="collapse navbar-collapse">
-                <ul className="navbar-nav ms-auto">
-                    <li className="nav-item"><a className="nav-link" href="/#" id="homeLink">Home</a></li>
-                    <li className="nav-item"><a className="nav-link" href="/#" id="registerLink">Register</a></li>
-                    <li className="nav-item"><a className="nav-link" href="/#" id="loginLink">Login</a></li>
-                    <li className="nav-item"><a className="nav-link" href="/#" id="logoutLink">Logout</a></li>
-                    <li className="nav-item"><a className="nav-link" href="/#" id="myAccountLink">My Account</a></li>
+                <ul className="navbar-nav ms-auto me-3">
+                    <li className="nav-item"><Link to="/" className="nav-link">Home</Link></li>
+                    <li className="nav-item"><a className="nav-link" href="/#" id="AboutLink">About</a></li>
+                    <li className="nav-item"> {login ? (
+                        <Link to="/account" className="nav-link">
+                            Hello, {login.name}
+                        </Link>
+                    ) : (
+                        <Link to="/login" className="nav-link">
+                            Login
+                        </Link>
+                    )}</li>
                 </ul>
             </div>
         </nav>

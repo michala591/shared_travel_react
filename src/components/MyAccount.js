@@ -1,11 +1,13 @@
 import React, { useState, useContext } from "react";
 import TripsContext from "../TripsContext";
+import UserContext from "../UserContext";
 
 function MyAccountPage() {
   const [car, setCar] = useState([])
   const { trips, setTrips } = useContext(TripsContext)
   const [newCar, setNewCar] = useState({ license_plate: "", model: "", max_capacity: "" });
   const [newTrip, setNewTrip] = useState({ origin: "", destination: "", departureTime: "", returnTime: "" });
+  const { login, setLogin } = useContext(UserContext)
 
   const handleCarSubmit = (e) => {
     e.preventDefault();
@@ -19,8 +21,15 @@ function MyAccountPage() {
     setNewTrip({ origin: "", destination: "", departureTime: "", returnTime: "" });
   };
 
+  function logout() {
+    setLogin(null)
+    localStorage.removeItem("token")
+  }
+
   return (
     <div className="container mt-5">
+      <br></br>
+      <br></br>
       <div className="row">
         {/* Sidebar */}
         <div className="col-md-3">
@@ -32,6 +41,7 @@ function MyAccountPage() {
                 <li className="list-group-item">My Car</li>
                 <li className="list-group-item">My Trips</li>
                 <li className="list-group-item">Settings</li>
+                <button id="logout-button" class="btn invite-btn" onClick={logout}>Logout</button>
               </ul>
             </div>
           </div>
@@ -53,43 +63,23 @@ function MyAccountPage() {
                 <form onSubmit={handleCarSubmit}>
                   <div className="form-group">
                     <label>Brand</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={newCar.brand}
-                      onChange={(e) => setNewCar({ ...newCar, brand: e.target.value })}
-                      required
-                    />
+                    <input type="text" className="form-control" value={newCar.brand}
+                      onChange={(e) => setNewCar({ ...newCar, brand: e.target.value })} required />
                   </div>
                   <div className="form-group">
                     <label>Model</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={newCar.model}
-                      onChange={(e) => setNewCar({ ...newCar, model: e.target.value })}
-                      required
-                    />
+                    <input type="text" className="form-control" value={newCar.model}
+                      onChange={(e) => setNewCar({ ...newCar, model: e.target.value })} required />
                   </div>
                   <div className="form-group">
                     <label>Year</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      value={newCar.year}
-                      onChange={(e) => setNewCar({ ...newCar, year: e.target.value })}
-                      required
-                    />
+                    <input type="number" className="form-control" value={newCar.year}
+                      onChange={(e) => setNewCar({ ...newCar, year: e.target.value })} required />
                   </div>
                   <div className="form-group">
                     <label>Seats</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      value={newCar.seats}
-                      onChange={(e) => setNewCar({ ...newCar, seats: e.target.value })}
-                      required
-                    />
+                    <input type="number" className="form-control" value={newCar.seats}
+                      onChange={(e) => setNewCar({ ...newCar, seats: e.target.value })} required />
                   </div>
                   <button type="submit" className="btn btn-primary mt-3">Add Car</button>
                 </form>
