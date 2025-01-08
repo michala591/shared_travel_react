@@ -12,5 +12,14 @@ export const getAllTrips = async () => {
     }
 };
 
+export const getLocations = async () => {
+    try {
+        const response = await axios.get(`${BASE_URL}/locations/`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching locations:", error);
+        return [];
+    }
+};
 
 

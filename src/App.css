@@ -40,6 +40,7 @@
 .invite-btn {
   margin-top: 20px;
   padding: 8px 15px;
+  width: 150px;
   background-color: #2980b9;
   border-color: #2980b9;
   color: white;
@@ -154,4 +155,144 @@ body {
 #register-error {
   display: none;
   color: #dc3545;
+}
+
+/* Base button styles */
+.btn-custom {
+  margin-top: 10px;
+  margin-right: 10px;
+  /* Adds space between buttons */
+  padding: 8px 15px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-custom:hover {
+  transform: scale(1.05);
+  font-weight: bold;
+
+  /* Slightly enlarges button on hover */
+}
+
+/* Specific button styles */
+.btn-warning {
+  background-color: #f39c12;
+}
+
+.btn-warning:hover {
+  background-color: #e67e22;
+}
+
+.btn-danger {
+  background-color: #c0392b;
+}
+
+.btn-danger:hover {
+  background-color: #e74c3c;
+}
+
+.btn-info {
+  background-color: #16a085;
+}
+
+.btn-info:hover {
+  background-color: #1abc9c;
+}
+
+.btn-secondary {
+  background-color: #7f8c8d;
+}
+
+.btn-secondary:hover {
+  background-color: #95a5a6;
+}
+
+/* Modal Styles */
+
+.modal-content {
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  background-color: #2980b9;
+  color: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-weight: bold;
+}
+
+.modal-title {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.btn-close {
+  background-color: transparent;
+}
+
+.btn-close-white {
+  filter: invert(1);
+  /* Ensures white close button for dark headers */
+}
+
+.modal-body {
+  background-color: #f8f9fa;
+  padding: 20px;
+}
+
+.list-group-item-pass {
+  background-color: #ffffff;
+  border: 1px solid #2980b9;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 15px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.list-group-item-pass:hover {
+  background-color: #f0f4f8;
+  transform: scale(1.02);
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.list-group-item h6 {
+  font-weight: bold;
+  color: #2980b9;
+}
+
+.list-group-item small {
+  color: #34495e;
+}
+
+.modal-footer {
+  background-color: #ecf0f1;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+/* Button Styles for Modal */
+.modal-footer .btn {
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.modal-footer .btn:hover {
+  transform: scale(1.05);
+}
+
+.modal-footer .btn-secondary {
+  background-color: #7f8c8d;
+  color: white;
+  border: none;
+}
+
+.modal-footer .btn-secondary:hover {
+  background-color: #95a5a6;
 }

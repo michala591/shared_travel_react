@@ -3,12 +3,14 @@ import axios from 'axios';
 import { jwtDecode } from "jwt-decode"
 import UserContext from "../UserContext";
 import { Link, useNavigate } from "react-router-dom"
+import TokenContext from "../TokenContext";
 
 
 
 
 const Login = () => {
-    const { login, setLogin } = useContext(UserContext)
+    const { setLogin } = useContext(UserContext)
+    const { token, setToken } = useContext(TokenContext)
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -28,10 +30,11 @@ const Login = () => {
         axios
             .post("http://127.0.0.1:8000/login/", loginData)
             .then((response) => {
-                console.log(response.data.access)
-                const token = jwtDecode(response.data.access)
+                const login = jwtDecode(response.data.access)
+                const token = response.data.access
+                setToken(token)
                 localStorage.setItem("token", response.data.access)
-                setLogin(token)
+                setLogin(login)
                 setMessage("Success to log in");
                 setError("")
                 setShowToast(true);

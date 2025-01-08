@@ -9,10 +9,13 @@ import MyAccount from './components/MyAccount';
 import Login from './components/Login';
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Register from './components/Register';
+import TokenContext from './TokenContext';
 
 function App() {
   const [login, setLogin] = useState([])
   const [trips, setTrips] = useState([])
+  const [token, setToken] = useState([])
+
 
 
   useEffect(() => {
@@ -27,15 +30,17 @@ function App() {
     <>
       <BrowserRouter>
         <UserContext.Provider value={{ login, setLogin }}>
-          <TripsContext.Provider value={{ trips, setTrips }}>
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Trips />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/account" element={<MyAccount />} />
-              <Route path="/register" element={<Register />} />
-            </Routes>
-          </TripsContext.Provider>
+          <TokenContext.Provider value={{ token, setToken }}>
+            <TripsContext.Provider value={{ trips, setTrips }}>
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<Trips />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/account" element={<MyAccount />} />
+                <Route path="/register" element={<Register />} />
+              </Routes>
+            </TripsContext.Provider>
+          </TokenContext.Provider>
         </UserContext.Provider>
       </BrowserRouter>
     </>

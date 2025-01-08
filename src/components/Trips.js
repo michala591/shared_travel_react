@@ -2,10 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios';
 import TripsContext from '../TripsContext'
 import UserContext from '../UserContext';
+import TokenContext from '../TokenContext';
+import TripDetail from './TripDetail';
 
 function Trips() {
     const { trips, setTrips } = useContext(TripsContext)
-    const { login, setLogin } = useContext(UserContext)
+    const { login } = useContext(UserContext)
+    const { token, setToken } = useContext(TokenContext)
     const [error, setError] = useState('');
     const [letter, setLetter] = useState('');
 
@@ -32,12 +35,23 @@ function Trips() {
     }
 
     const joinTrip = async (index) => {
-        try {
-            const response = await axios.post(`http://127.0.0.1:8000/${trips[index].id}/invite/`);
-            console.log("Successfully joined the trip:", response.data);
-        } catch (error) {
-            console.error("Error joining the trip:", error);
+        if (login && login.name) {
+            try {
+                const response = await axios.post(`http://127.0.0.1:8000/${trips[index].id}/invite/`, {}, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                console.log("Successfully joined the trip:", response.data);
+                alert(response.data.status);
+            } catch (error) {
+                if (error.response && error.response.data && error.response.data.error) {
+                    alert(error.response.data.error); // Show server error message
+                } else {
+                    console.error("Error joining the trip:", error);
+                    alert("An error occurred while trying to join the trip.");
+                }
+            }
         }
+        else { alert("Please log in.") }
     };
     return (
         <>
@@ -54,32 +68,13 @@ function Trips() {
             <div className="trips-list">
                 {trips.map((trip, index) => (
                     <div key={index} className="card trip-item">
-                        <div className="card-header">
-                            {trip.origin_station.city} to {trip.destination_station.city}
-                        </div>
-                        <div className="card-body">
-                            <div className="trip-details">
-                                <strong>Origin:</strong> {trip.origin_station.city}, {trip.origin_station.zone}
-                            </div>
-                            <div className="trip-details">
-                                <strong>Destination:</strong> {trip.destination_station.city}, {trip.destination_station.zone}
-                            </div>
-                            <div className="trip-details">
-                                <strong>Departure Time:</strong> {trip.departure_time}
-                            </div>
-                            <div className="trip-details">
-                                <strong>Return Time:</strong> {trip.return_time}
-                            </div>
-                            <div className="trip-details">
-                                <strong>Seats Available:</strong> {trip.available_seats}
-                            </div>
-                            <button
-                                className="btn invite-btn"
-                                onClick={login ? (() => joinTrip(index)) : (alert("please log in"))}
-                            >
-                                Join the Ride
-                            </button>
-                        </div>
+                        <TripDetail trip={trip} />
+                        <button
+                            className="btn invite-btn"
+                            onClick={() => joinTrip(index)}
+                        >
+                            Join the Ride
+                        </button>
                     </div>
                 ))}
             </div>

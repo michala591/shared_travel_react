@@ -4,7 +4,7 @@ import UserContext from '../UserContext'
 
 
 function Navbar() {
-    const { login, setLogin } = useContext(UserContext)
+    const { login } = useContext(UserContext)
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark fixed-top">
@@ -13,7 +13,7 @@ function Navbar() {
                 <ul className="navbar-nav ms-auto me-3">
                     <li className="nav-item"><Link to="/" className="nav-link">Home</Link></li>
                     <li className="nav-item"><a className="nav-link" href="/#" id="AboutLink">About</a></li>
-                    <li className="nav-item"> {login ? (
+                    <li className="nav-item"> {login && login.name ? (
                         <Link to="/account" className="nav-link">
                             Hello, {login.name}
                         </Link>
