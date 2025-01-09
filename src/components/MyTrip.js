@@ -6,7 +6,7 @@ import TripsContext from "../TripsContext";
 import TripDetail from "./TripDetail";
 import MyTripsContext from "../MyTripsContext";
 
-const MyTrip = () => {
+const MyTrip = ({ fetchMyTrips }) => {
     const [passengers, setPassengers] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const { trips, setTrips } = useContext(TripsContext)
@@ -15,33 +15,21 @@ const MyTrip = () => {
     const { login, setLogin } = useContext(UserContext)
 
 
-    const fetchMyTrips = async () => {
+    async function deleteTrip(trip) {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/my_trips`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            setMyTrips(response.data);
-        } catch (error) {
-            console.error("Error fetching trips:", error);
-            alert("Failed to fetch trips. Please try again later.");
-        }
-    };
-
-    async function deleteTrip(index) {
-        try {
-            await axios.delete(`http://127.0.0.1:8000/${trips[index].id}/`, {
+            await axios.delete(`http://127.0.0.1:8000/${trip.id}/`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             alert("Trip deleted successfully");
+            fetchMyTrips()
         } catch (error) {
             console.error('Error deleting trip:', error);
         }
-        console.log("trip id:", trips[index].id)
     }
 
-    async function getPassengers(index) {
+    async function getPassengers(trip) {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/${trips[index].id}/passengers/`, {
+            const response = await axios.get(`http://127.0.0.1:8000/${trip.id}/passengers/`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setPassengers(response.data)
@@ -63,22 +51,21 @@ const MyTrip = () => {
         }
     }
 
-    async function deleteTripPassenger(index) {
+    async function deleteTripPassenger(trip) {
         try {
             // Use the tripId variable in the URL
-            await axios.delete(`http://127.0.0.1:8000/delete_trip/${myTrips[index].id}/`, {
+            await axios.delete(`http://127.0.0.1:8000/delete_trip/${trip.id}/`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             alert("Trip deleted successfully");
         } catch (error) {
             console.error('Error deleting trip:', error);
         }
-        console.log(trips[index].id)
     }
 
     useEffect(() => {
         fetchMyTrips();
-    }, []);
+    }, [trips]);
 
     return (
         <div className="mt-4">
@@ -89,14 +76,13 @@ const MyTrip = () => {
                         {login && login.user_type === "DR" ? (
                             <div>
                                 <button className="btn-custom btn-warning">Edit Trip</button>
-                                <button className="btn-custom btn-danger" onClick={() => deleteTrip(index)}>Delete Trip</button>
-                                <button className="btn-custom btn-info" onClick={() => getPassengers(index)}>View Passengers</button>
-                                <button className="btn-custom btn-secondary" onClick={toggleActiveStatus}>Toggle Active</button>
+                                <button className="btn-custom btn-danger" onClick={() => deleteTrip(trip)}>Delete Trip</button>
+                                <button className="btn-custom btn-info" onClick={() => getPassengers(trip)}>View Passengers</button>
                             </div>
                         ) : (
                             <div>
                                 <button class="btn-custom btn-warning" onClick={toggleActiveStatus}>Toggle Active</button>
-                                <button class="btn-custom btn-danger" onClick={() => deleteTripPassenger(index)}>Delete Trip</button>
+                                <button class="btn-custom btn-danger" onClick={() => deleteTripPassenger(trip)}>Delete Trip</button>
                             </div>
                         )}
 

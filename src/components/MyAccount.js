@@ -7,14 +7,25 @@ import { useNavigate } from "react-router-dom";
 import AddTrip from "./AddTrip";
 import MyCar from "./MyCar";
 import MyTripsContext from "../MyTripsContext";
-
+import axios from "axios";
 
 function MyAccountPage() {
   const { login, setLogin } = useContext(UserContext)
   const { token, setToken } = useContext(TokenContext)
   const { MyTrips, setMyTrips } = useContext(MyTripsContext)
-
   const navigate = useNavigate()
+
+  const fetchMyTrips = async () => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:8000/my_trips`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setMyTrips(response.data);
+    } catch (error) {
+      console.error("Error fetching trips:", error);
+      alert("Failed to fetch trips. Please try again later.");
+    }
+  };
 
   function logout() {
     setLogin(null)
@@ -32,10 +43,20 @@ function MyAccountPage() {
             <div className="card-body">
               <h5 className="card-header">My Account</h5>
               <ul className="list-group list-group-flush">
-                <li className="list-group-item">Overview</li>
-                <li className="list-group-item">My Car</li>
-                <li className="list-group-item">My Trips</li>
-                <li className="list-group-item">Settings</li>
+                <li className="list-group-item">
+                  <a href="#overview" className="text-decoration-none">Overview</a>
+                </li>
+                {login && login.user_type === "DR" && (
+                  <li className="list-group-item">
+                    <a href="#my-car" className="text-decoration-none">My Car</a>
+                  </li>
+                )}
+                <li className="list-group-item">
+                  <a href="#my-trips" className="text-decoration-none">My Trips</a>
+                </li>
+                <li className="list-group-item">
+                  <a href="#settings" className="text-decoration-none">Settings</a>
+                </li>
                 <button
                   id="logout-button"
                   className="btn btn-danger mt-3 w-100"
@@ -51,22 +72,31 @@ function MyAccountPage() {
         {/* Main Content */}
         <div className="col-md-9">
           {/* My Car Section */}
-          <div className="card mb-4">
-            <MyCar />
-          </div>
+          {login && login.user_type === "DR" && (
+            <div id="my-car" className="card mb-4">
+              <MyCar />
+            </div>
+          )}
 
           {/* My Trips Section */}
-          <div className="card">
+          <div id="my-trips" className="card">
             <div className="card-header">My Trips</div>
             <div className="card-body">
-              {login && login.user_type === "DR" ? (<AddTrip />) : (null)}
+              {login && login.user_type === "DR" ? (<AddTrip fetchMyTrips={fetchMyTrips} />) : (null)}
               {/* Trips List */}
               <div className="mt-4">
-                <MyTrip />
+                <MyTrip fetchMyTrips={fetchMyTrips} />
               </div>
             </div>
           </div>
+          <div id="settings" className="card mt-4">
+            <div className="card-header">Settings</div>
+            <div className="card-body">
+              <p>Settings content goes here.</p>
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
   );

@@ -11,10 +11,33 @@ function Trips() {
     const { token, setToken } = useContext(TokenContext)
     const [error, setError] = useState('');
     const [letter, setLetter] = useState('');
+    const [showScrollButton, setShowScrollButton] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 200) {
+                setShowScrollButton(true);
+            } else {
+                setShowScrollButton(false);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
 
     useEffect(() => {
         searchTrip()
     }, [letter])
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    };
 
     async function searchTrip() {
         try {
@@ -78,6 +101,14 @@ function Trips() {
                     </div>
                 ))}
             </div>
+            {showScrollButton && (
+                <button
+                    className="scroll-to-top-btn"
+                    onClick={scrollToTop}
+                >
+                    ↑
+                </button>
+            )}
         </>
     )
 }

@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import TokenContext from "../TokenContext";
-import MyTripsContext from "../MyTripsContext";
+import TripsContext from "../TripsContext";
 
-const AddTrip = () => {
+const AddTrip = ({ fetchMyTrips }) => {
     const { token, setToken } = useContext(TokenContext)
-    const { MyTrips, setMyTrips } = useContext(MyTripsContext)
+    const { trips, setTrips } = useContext(TripsContext)
     const [locations, setLocations] = useState([]);
     const [originStation, setOriginStation] = useState("");
     const [destinationStation, setDestinationStation] = useState("");
@@ -35,6 +35,7 @@ const AddTrip = () => {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then((response) => {
+                fetchMyTrips()
                 setMessage("Success to add a trip");
                 setError("")
             })
