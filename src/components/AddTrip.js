@@ -2,9 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import TokenContext from "../TokenContext";
+import MyTripsContext from "../MyTripsContext";
 
 const AddTrip = () => {
     const { token, setToken } = useContext(TokenContext)
+    const { MyTrips, setMyTrips } = useContext(MyTripsContext)
     const [locations, setLocations] = useState([]);
     const [originStation, setOriginStation] = useState("");
     const [destinationStation, setDestinationStation] = useState("");
@@ -35,7 +37,6 @@ const AddTrip = () => {
             .then((response) => {
                 setMessage("Success to add a trip");
                 setError("")
-                navigate("/account")
             })
             .catch((error) => {
                 console.log(error)

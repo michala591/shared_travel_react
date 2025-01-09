@@ -4,12 +4,13 @@ import TokenContext from "../TokenContext";
 import UserContext from "../UserContext";
 import TripsContext from "../TripsContext";
 import TripDetail from "./TripDetail";
+import MyTripsContext from "../MyTripsContext";
 
 const MyTrip = () => {
-    const [myTrips, setMyTrips] = useState([]);
     const [passengers, setPassengers] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const { trips, setTrips } = useContext(TripsContext)
+    const { myTrips, setMyTrips } = useContext(MyTripsContext)
     const { token, setToken } = useContext(TokenContext)
     const { login, setLogin } = useContext(UserContext)
 

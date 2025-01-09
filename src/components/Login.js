@@ -10,7 +10,7 @@ import TokenContext from "../TokenContext";
 
 const Login = () => {
     const { setLogin } = useContext(UserContext)
-    const { token, setToken } = useContext(TokenContext)
+    const { setToken } = useContext(TokenContext)
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -40,7 +40,7 @@ const Login = () => {
                 setShowToast(true);
                 setTimeout(() => {
                     navigate("/");
-                }, 2000);
+                }, 1000);
             })
             .catch((error) => {
                 console.log(error)
@@ -57,7 +57,7 @@ const Login = () => {
         if (showToast) {
             const timer = setTimeout(() => {
                 setShowToast(false);
-            }, 2000); // Toast disappears after 3 seconds
+            }, 1000); // Toast disappears after 3 seconds
             return () => clearTimeout(timer); // Cleanup timer
         }
     }, [showToast]);

@@ -1,36 +1,26 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import TripsContext from "../TripsContext";
 import UserContext from "../UserContext";
 import TokenContext from "../TokenContext";
 import MyTrip from "./MyTrip";
 import { useNavigate } from "react-router-dom";
 import AddTrip from "./AddTrip";
+import MyCar from "./MyCar";
+import MyTripsContext from "../MyTripsContext";
 
 
 function MyAccountPage() {
-  const [car, setCar] = useState([])
-  const { trips, setTrips } = useContext(TripsContext)
-  const [newCar, setNewCar] = useState({ license_plate: "", model: "", max_capacity: "" });
-  const [newTrip, setNewTrip] = useState({ origin: "", destination: "", departureTime: "", returnTime: "" });
   const { login, setLogin } = useContext(UserContext)
   const { token, setToken } = useContext(TokenContext)
+  const { MyTrips, setMyTrips } = useContext(MyTripsContext)
+
   const navigate = useNavigate()
-
-
-
-  const handleCarSubmit = (e) => {
-    e.preventDefault();
-    setCar(newCar);
-    setNewCar({ license_plate: "", model: "", max_capacity: "" });
-  };
 
   function logout() {
     setLogin(null)
     setToken(localStorage.removeItem("token"))
     navigate("/")
   }
-
-
 
   return (
     <div className="container mt-5">
@@ -62,40 +52,7 @@ function MyAccountPage() {
         <div className="col-md-9">
           {/* My Car Section */}
           <div className="card mb-4">
-            <div className="card-header">My Car</div>
-            <div className="card-body">
-              {car ? (
-                <div>
-                  <p><strong>Brand:</strong> {car.license_plate}</p>
-                  <p><strong>Model:</strong> {car.model}</p>
-                  <p><strong>Seats:</strong> {car.max_capacity}</p>
-                </div>
-              ) : (
-                <form onSubmit={handleCarSubmit}>
-                  <div className="form-group">
-                    <label>Brand</label>
-                    <input type="text" className="form-control" value={newCar.brand}
-                      onChange={(e) => setNewCar({ ...newCar, brand: e.target.value })} required />
-                  </div>
-                  <div className="form-group">
-                    <label>Model</label>
-                    <input type="text" className="form-control" value={newCar.model}
-                      onChange={(e) => setNewCar({ ...newCar, model: e.target.value })} required />
-                  </div>
-                  <div className="form-group">
-                    <label>Year</label>
-                    <input type="number" className="form-control" value={newCar.year}
-                      onChange={(e) => setNewCar({ ...newCar, year: e.target.value })} required />
-                  </div>
-                  <div className="form-group">
-                    <label>Seats</label>
-                    <input type="number" className="form-control" value={newCar.seats}
-                      onChange={(e) => setNewCar({ ...newCar, seats: e.target.value })} required />
-                  </div>
-                  <button type="submit" className="btn btn-primary mt-3">Add Car</button>
-                </form>
-              )}
-            </div>
+            <MyCar />
           </div>
 
           {/* My Trips Section */}

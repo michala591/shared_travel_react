@@ -10,10 +10,12 @@ import Login from './components/Login';
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Register from './components/Register';
 import TokenContext from './TokenContext';
+import MyTripsContext from './MyTripsContext';
 
 function App() {
   const [login, setLogin] = useState([])
   const [trips, setTrips] = useState([])
+  const [myTrips, setMyTrips] = useState([])
   const [token, setToken] = useState([])
 
 
@@ -32,13 +34,15 @@ function App() {
         <UserContext.Provider value={{ login, setLogin }}>
           <TokenContext.Provider value={{ token, setToken }}>
             <TripsContext.Provider value={{ trips, setTrips }}>
-              <Navbar />
-              <Routes>
-                <Route path="/" element={<Trips />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/account" element={<MyAccount />} />
-                <Route path="/register" element={<Register />} />
-              </Routes>
+              <MyTripsContext.Provider value={{ myTrips, setMyTrips }}>
+                <Navbar />
+                <Routes>
+                  <Route path="/" element={<Trips />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/account" element={<MyAccount />} />
+                  <Route path="/register" element={<Register />} />
+                </Routes>
+              </MyTripsContext.Provider>
             </TripsContext.Provider>
           </TokenContext.Provider>
         </UserContext.Provider>

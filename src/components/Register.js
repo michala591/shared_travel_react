@@ -98,8 +98,9 @@ const Register = () => {
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="user_type" className="form-label">User Type</label>
-                                    <select className="form-control" id="user_type" value={userType}
+                                    <select className="form-select" id="user_type" value={userType}
                                         onChange={(e) => setUserType(e.target.value)} required>
+                                        <option value="">Select User Type</option>
                                         <option value="DR">Driver</option>
                                         <option value="PA">Passenger</option>
                                     </select>
