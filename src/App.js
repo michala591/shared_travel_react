@@ -26,8 +26,12 @@ function App() {
     async function fetchTrips() {
       const fetchedTrips = await getAllTrips();
       console.log("start app!")
-      setTrips(fetchedTrips);
-      console.log("trips:", trips)
+      if (Array.isArray(fetchedTrips)) {
+        setTrips(fetchedTrips);
+      } else {
+        console.error("Expected an array, got:", fetchedTrips);
+        setTrips([]); // Set to an empty array if invalid
+      }
     }
     fetchTrips();
   }, []);

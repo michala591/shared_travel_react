@@ -26,11 +26,17 @@ function Trips() {
                     params: { letter },
                 });
             }
-            setTrips(response.data);
+            if (Array.isArray(response.data)) {
+                setTrips(response.data);
+            } else {
+                console.error("Expected an array, got:", response.data);
+                setTrips([]); // Prevent .map() error
+            }
             setError(''); // Clear any previous errors
         } catch (error) {
             console.error('Error fetching trips:', error);
             setError('An error occurred while fetching trips. Please try again.');
+            setTrips([]); // Set to empty array on error
         }
     }
 
@@ -66,17 +72,21 @@ function Trips() {
                 </div>
             </div>
             <div className="trips-list">
-                {trips.map((trip, index) => (
-                    <div key={index} className="card trip-item">
-                        <TripDetail trip={trip} />
-                        <button
-                            className="btn invite-btn"
-                            onClick={() => joinTrip(index)}
-                        >
-                            Join the Ride
-                        </button>
-                    </div>
-                ))}
+                {trips.length > 0 ? (
+                    trips.map((trip, index) => (
+                        <div key={index} className="card trip-item">
+                            <TripDetail trip={trip} />
+                            <button
+                                className="btn invite-btn"
+                                onClick={() => joinTrip(index)}
+                            >
+                                Join the Ride
+                            </button>
+                        </div>
+                    ))
+                ) : (
+                    <p>No trips found. Try searching with a different letter.</p>
+                )}
             </div>
         </>
     )
