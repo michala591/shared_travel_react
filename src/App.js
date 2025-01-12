@@ -25,7 +25,9 @@ function App() {
   useEffect(() => {
     async function fetchTrips() {
       const fetchedTrips = await getAllTrips();
+      console.log("start app!")
       setTrips(fetchedTrips);
+      console.log("trips:", trips)
     }
     fetchTrips();
   }, []);
