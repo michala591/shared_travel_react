@@ -28,6 +28,7 @@ function Trips() {
             }
             if (Array.isArray(response.data)) {
                 setTrips(response.data);
+                console.log(response.data)
             } else {
                 console.error("Expected an array, got:", response.data);
                 setTrips([]); // Prevent .map() error
@@ -85,7 +86,7 @@ function Trips() {
                         </div>
                     ))
                 ) : (
-                    <p>No trips found. Try searching with a different letter.</p>
+                    null
                 )}
             </div>
         </>
