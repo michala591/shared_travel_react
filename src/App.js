@@ -17,6 +17,8 @@ function App() {
   const [trips, setTrips] = useState([])
   const [myTrips, setMyTrips] = useState([])
   const [token, setToken] = useState([])
+  const [showScrollButton, setShowScrollButton] = useState(false);
+
 
 
 
@@ -27,6 +29,28 @@ function App() {
     }
     fetchTrips();
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 200) {
+        setShowScrollButton(true);
+      } else {
+        setShowScrollButton(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <>
@@ -47,6 +71,14 @@ function App() {
           </TokenContext.Provider>
         </UserContext.Provider>
       </BrowserRouter>
+      {showScrollButton && (
+        <button
+          className="scroll-to-top-btn"
+          onClick={scrollToTop}
+        >
+          ↑
+        </button>
+      )}
     </>
   );
 }

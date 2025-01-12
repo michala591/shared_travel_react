@@ -38,6 +38,11 @@ const AddTrip = ({ fetchMyTrips }) => {
                 fetchMyTrips()
                 setMessage("Success to add a trip");
                 setError("")
+                setOriginStation("")
+                setDestinationStation("")
+                setDepartureTime("")
+                setReturnTime("")
+                setDays("")
             })
             .catch((error) => {
                 console.log(error)
@@ -163,7 +168,16 @@ const AddTrip = ({ fetchMyTrips }) => {
                     <input type="text" className="form-control" id="days" value={days}
                         onChange={(e) => setDays(e.target.value)} required />
                 </div>
-                <button type="submit" className="btn-custom btn-warning" >Add Trip</button>
+                <button
+                    type="submit"
+                    className="btn-custom btn-warning"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#add-trip-form"
+                    aria-expanded="true"
+                    aria-controls="add-trip-form"
+                >
+                    Add Trip
+                </button>
             </form></>
     );
 };
