@@ -7,7 +7,7 @@ import TripDetail from './TripDetail';
 
 function Trips() {
     const { trips, setTrips } = useContext(TripsContext)
-    const { login } = useContext(UserContext)
+    const { login, setLogin } = useContext(UserContext)
     const { token, setToken } = useContext(TokenContext)
     const [error, setError] = useState('');
     const [letter, setLetter] = useState('');
