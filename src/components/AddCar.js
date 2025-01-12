@@ -22,7 +22,7 @@ const AddCar = () => {
         }
         setLoading(true);
         axios
-            .post("http://127.0.0.1:8000/cars/my_car/", addCarData, {
+            .post("https://shared-travel-proj.onrender.com/cars/my_car/", addCarData, {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then((response) => {

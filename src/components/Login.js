@@ -28,7 +28,7 @@ const Login = () => {
         }
         setLoading(true);
         axios
-            .post("http://127.0.0.1:8000/login/", loginData)
+            .post("https://shared-travel-proj.onrender.com/login/", loginData)
             .then((response) => {
                 const login = jwtDecode(response.data.access)
                 const token = response.data.access

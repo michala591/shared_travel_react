@@ -20,9 +20,9 @@ function Trips() {
         try {
             let response;
             if (letter.trim() === '') {
-                response = await axios.get(`http://127.0.0.1:8000/`);
+                response = await axios.get(`https://shared-travel-proj.onrender.com/`);
             } else {
-                response = await axios.get(`http://127.0.0.1:8000/search/`, {
+                response = await axios.get(`https://shared-travel-proj.onrender.com/search/`, {
                     params: { letter },
                 });
             }
@@ -37,7 +37,7 @@ function Trips() {
     const joinTrip = async (index) => {
         if (login && login.name) {
             try {
-                const response = await axios.post(`http://127.0.0.1:8000/${trips[index].id}/invite/`, {}, {
+                const response = await axios.post(`https://shared-travel-proj.onrender.com/${trips[index].id}/invite/`, {}, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 console.log("Successfully joined the trip:", response.data);

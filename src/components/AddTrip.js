@@ -31,7 +31,7 @@ const AddTrip = ({ fetchMyTrips }) => {
         }
         setLoading(true);
         axios
-            .post("http://127.0.0.1:8000/add_trips/", addTripData, {
+            .post("https://shared-travel-proj.onrender.com/add_trips/", addTripData, {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then((response) => {
@@ -61,7 +61,7 @@ const AddTrip = ({ fetchMyTrips }) => {
         }
         setLoading(true);
         axios
-            .post("http://127.0.0.1:8000/locations/", addLocationsData)
+            .post("https://shared-travel-proj.onrender.com/locations/", addLocationsData)
             .then((response) => {
                 setMessage("Success to add a location");
                 setError("")
@@ -77,7 +77,7 @@ const AddTrip = ({ fetchMyTrips }) => {
     };
     const getAllLocation = async () => {
         try {
-            const response = await axios.get("http://127.0.0.1:8000/locations/");
+            const response = await axios.get("https://shared-travel-proj.onrender.com/locations/");
             setLocations(response.data); // Store locations in state
         } catch (error) {
             console.error("Error fetching locations:", error);

@@ -28,7 +28,7 @@ const Register = () => {
         }
         setLoading(true);
         axios
-            .post("http://127.0.0.1:8000/users/register/", registerData)
+            .post("https://shared-travel-proj.onrender.com/users/register/", registerData)
             .then((response) => {
                 setMessage("Success to register");
                 setError("")

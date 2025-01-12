@@ -17,7 +17,7 @@ const MyTrip = ({ fetchMyTrips }) => {
 
     async function deleteTrip(trip) {
         try {
-            await axios.delete(`http://127.0.0.1:8000/${trip.id}/`, {
+            await axios.delete(`https://shared-travel-proj.onrender.com/${trip.id}/`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             alert("Trip deleted successfully");
@@ -29,7 +29,7 @@ const MyTrip = ({ fetchMyTrips }) => {
 
     async function getPassengers(trip) {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/${trip.id}/passengers/`, {
+            const response = await axios.get(`https://shared-travel-proj.onrender.com/${trip.id}/passengers/`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setPassengers(response.data)
@@ -42,7 +42,7 @@ const MyTrip = ({ fetchMyTrips }) => {
 
     async function toggleActiveStatus() {
         try {
-            const response = await axios.patch(`http://127.0.0.1:8000/users/active/`, {}, {
+            const response = await axios.patch(`https://shared-travel-proj.onrender.com/users/active/`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             alert(response.data.status);
@@ -54,7 +54,7 @@ const MyTrip = ({ fetchMyTrips }) => {
     async function deleteTripPassenger(trip) {
         try {
             // Use the tripId variable in the URL
-            await axios.delete(`http://127.0.0.1:8000/delete_trip/${trip.id}/`, {
+            await axios.delete(`https://shared-travel-proj.onrender.com/delete_trip/${trip.id}/`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             alert("Trip deleted successfully");

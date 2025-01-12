@@ -9,7 +9,7 @@ const MyCar = () => {
 
     const fetchMyCar = async () => {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/cars/my_car/`, {
+            const response = await axios.get(`https://shared-travel-proj.onrender.com/cars/my_car/`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             console.log("my car:", response.data)
@@ -22,7 +22,7 @@ const MyCar = () => {
 
     async function deleteCar() {
         try {
-            await axios.delete(`http://127.0.0.1:8000/cars/my_car/`, {
+            await axios.delete(`https://shared-travel-proj.onrender.com/cars/my_car/`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             alert("Car deleted successfully");

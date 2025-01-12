@@ -17,7 +17,7 @@ function MyAccountPage() {
 
   const fetchMyTrips = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/my_trips`, {
+      const response = await axios.get(`https://shared-travel-proj.onrender.com/my_trips`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMyTrips(response.data);

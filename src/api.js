@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://127.0.0.1:8000'; // URL of your json-server
+const BASE_URL = 'https://shared-travel-proj.onrender.com/'; // URL of your json-server
 
 export const getAllTrips = async () => {
     try {
