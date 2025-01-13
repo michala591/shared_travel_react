@@ -2,21 +2,31 @@ import React, { useContext, useEffect, useState } from 'react'
 import TokenContext from '../TokenContext';
 import axios from 'axios';
 import AddCar from './AddCar';
+import { Link } from 'react-router-dom';
+import ShowToast from './ShowToast';
+import EditCar from './EditCar';
 
 const MyCar = () => {
     const [cars, setCars] = useState([])
     const { token, setToken } = useContext(TokenContext)
+    const [isEditing, setIsEditing] = useState(false);
+    const [selectedCar, setSelectedCar] = useState(null);
+    const [error, setError] = useState("");
+    const [message, setMessage] = useState("");
+    const [showToast, setShowToast] = useState(false);
+    const [toastType, setToastType] = useState("");
 
     const fetchMyCar = async () => {
         try {
             const response = await axios.get(`https://shared-travel-proj.onrender.com/cars/my_car/`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            console.log("my car:", response.data)
             setCars(response.data);
         } catch (error) {
-            console.error("Error fetching trips:", error);
-            alert("Failed to fetch cars. Please try again later.");
+            setError("Failed to fetch cars. Please try again later.");
+            setMessage("")
+            setShowToast("true")
+            setToastType("error")
         }
     };
 
@@ -25,15 +35,31 @@ const MyCar = () => {
             await axios.delete(`https://shared-travel-proj.onrender.com/cars/my_car/`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            alert("Car deleted successfully");
+            setError("")
+            setShowToast("true")
+            setToastType("success")
+            setMessage("Car deleted successfully");
         } catch (error) {
-            console.error('Error deleting trip:', error);
+            setError(error.response?.data?.error || "An unexpected error occurred.");
+            setMessage("")
+            setShowToast("true")
+            setToastType("error")
         }
     }
 
     useEffect(() => {
         fetchMyCar()
     }, []);
+
+    const openEditModal = (car) => {
+        setSelectedCar(car);
+        setIsEditing(true);
+    };
+
+    const closeEditModal = () => {
+        setIsEditing(false);
+        setSelectedCar(null);
+    };
 
     return (
 
@@ -48,14 +74,28 @@ const MyCar = () => {
                             <p><strong>Seats:</strong> {car.max_capacity}</p>
                         </div>
                         <div>
-                            <button className="btn-custom btn-warning">Edit Car</button>
+                            <button className="btn-custom btn-warning" onClick={() => openEditModal(car)}>Edit Car</button>
                             <button className="btn-custom btn-danger" onClick={deleteCar}>Delete Car</button>
                         </div>
                     </div>))
             ) : (
-                <AddCar />
+                <AddCar fetchMyCar={fetchMyCar} />
             )}
 
+            {isEditing && selectedCar && (
+                <EditCar
+                    car={selectedCar}
+                    fetchMyCar={fetchMyCar}
+                    closeModal={closeEditModal}
+                />
+            )}
+
+            <ShowToast
+                show={showToast}
+                message={error || message}
+                type={toastType}
+                onClose={() => setShowToast(false)}
+            />
         </>
     )
 }

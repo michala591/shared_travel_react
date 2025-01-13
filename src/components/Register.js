@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import ShowToast from "./ShowToast";
 
 
 const Register = () => {
@@ -14,6 +15,7 @@ const Register = () => {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const [showToast, setShowToast] = useState(false);
+    const [toastType, setToastType] = useState("");
     const navigate = useNavigate()
 
 
@@ -30,9 +32,10 @@ const Register = () => {
         axios
             .post("https://shared-travel-proj.onrender.com/users/register/", registerData)
             .then((response) => {
-                setMessage("Success to register");
-                setError("")
+                setMessage("Successfully registered!");
+                setError("");
                 setShowToast(true);
+                setToastType("success");
                 setTimeout(() => {
                     navigate("/login");
                 }, 2000);
@@ -42,20 +45,12 @@ const Register = () => {
                 setError("Register Failed please try again")
                 setMessage("")
                 setShowToast(true);
+                setToastType("error");
             })
             .finally(() => {
                 setLoading(false); // Reset loading state
             });
     }
-
-    useEffect(() => {
-        if (showToast) {
-            const timer = setTimeout(() => {
-                setShowToast(false);
-            }, 2000); // Toast disappears after 3 seconds
-            return () => clearTimeout(timer); // Cleanup timer
-        }
-    }, [showToast]);
 
     return (
         <div>
@@ -117,21 +112,12 @@ const Register = () => {
                     </div>
                 </div>
             </div>
-            {showToast && (
-                <div
-                    className="toast show position-fixed bottom-0 end-0 m-3"
-                    role="alert"
-                    aria-live="assertive"
-                    aria-atomic="true"
-                >
-                    <div className={`toast-header ${error ? "bg-danger" : "bg-success"} text-white`}>
-                        <strong className="me-auto">Register</strong>
-                    </div>
-                    <div className="toast-body">
-                        {error || message}
-                    </div>
-                </div>
-            )}
+            <ShowToast
+                show={showToast}
+                message={error || message}
+                type={toastType}
+                onClose={() => setShowToast(false)}
+            />
         </div>
     )
 }

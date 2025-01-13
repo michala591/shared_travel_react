@@ -5,6 +5,7 @@ import UserContext from "../UserContext";
 import TripsContext from "../TripsContext";
 import TripDetail from "./TripDetail";
 import MyTripsContext from "../MyTripsContext";
+import ShowToast from "./ShowToast";
 
 const MyTrip = ({ fetchMyTrips }) => {
     const [passengers, setPassengers] = useState([]);
@@ -13,6 +14,10 @@ const MyTrip = ({ fetchMyTrips }) => {
     const { myTrips, setMyTrips } = useContext(MyTripsContext)
     const { token, setToken } = useContext(TokenContext)
     const { login, setLogin } = useContext(UserContext)
+    const [error, setError] = useState("");
+    const [message, setMessage] = useState("");
+    const [showToast, setShowToast] = useState(false);
+    const [toastType, setToastType] = useState("");
 
 
     async function deleteTrip(trip) {
@@ -20,10 +25,14 @@ const MyTrip = ({ fetchMyTrips }) => {
             await axios.delete(`https://shared-travel-proj.onrender.com/${trip.id}/`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            alert("Trip deleted successfully");
+            setMessage("Trip deleted successfully");
+            setShowToast("true")
+            setToastType("success")
             fetchMyTrips()
         } catch (error) {
-            console.error('Error deleting trip:', error);
+            setMessage('Error deleting trip:', error)
+            setShowToast("true")
+            setToastType("error")
         }
     }
 
@@ -35,8 +44,9 @@ const MyTrip = ({ fetchMyTrips }) => {
             setPassengers(response.data)
             setShowModal(true)
         } catch (error) {
-            console.error("Error fetching passengers:", error);
-            alert("Failed to fetch passengers. Please try again later.");
+            setMessage("Error fetching passengers:", error)
+            setShowToast("true")
+            setToastType("error")
         }
     }
 
@@ -45,21 +55,30 @@ const MyTrip = ({ fetchMyTrips }) => {
             const response = await axios.patch(`https://shared-travel-proj.onrender.com/users/active/`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            alert(response.data.status);
+            setMessage(response.data.status);
+            setShowToast("true")
+            setToastType("success")
+            fetchMyTrips()
         } catch (error) {
-            console.error('Error toggling active status:', error);
+            setMessage('Error toggling active status:', error);
+            setShowToast("true")
+            setToastType("error")
         }
     }
 
     async function deleteTripPassenger(trip) {
         try {
-            // Use the tripId variable in the URL
             await axios.delete(`https://shared-travel-proj.onrender.com/delete_trip/${trip.id}/`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            alert("Trip deleted successfully");
+            setMessage("Trip deleted successfully");
+            setShowToast("true")
+            setToastType("success")
+            fetchMyTrips()
         } catch (error) {
-            console.error('Error deleting trip:', error);
+            setMessage('Error deleting trip:', error);
+            setShowToast("true")
+            setToastType("error")
         }
     }
 
@@ -147,8 +166,12 @@ const MyTrip = ({ fetchMyTrips }) => {
                     </div>
                 )
             }
-
-
+            <ShowToast
+                show={showToast}
+                message={error || message}
+                type={toastType}
+                onClose={() => setShowToast(false)}
+            />
 
         </div >
     );

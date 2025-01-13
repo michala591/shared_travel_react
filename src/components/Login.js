@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode"
 import UserContext from "../UserContext";
 import { Link, useNavigate } from "react-router-dom"
 import TokenContext from "../TokenContext";
+import ShowToast from "./ShowToast";
 
 
 
@@ -17,6 +18,7 @@ const Login = () => {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const [showToast, setShowToast] = useState(false);
+    const [toastType, setToastType] = useState("");
     const navigate = useNavigate()
 
 
@@ -37,6 +39,7 @@ const Login = () => {
                 setLogin(login)
                 setMessage("Success to log in");
                 setError("")
+                setToastType("success");
                 setShowToast(true);
                 setTimeout(() => {
                     navigate("/");
@@ -47,20 +50,12 @@ const Login = () => {
                 setError("Login Failed please try again")
                 setMessage("")
                 setShowToast(true);
+                setToastType("error");
             })
             .finally(() => {
                 setLoading(false); // Reset loading state
             });
     }
-
-    useEffect(() => {
-        if (showToast) {
-            const timer = setTimeout(() => {
-                setShowToast(false);
-            }, 1000); // Toast disappears after 3 seconds
-            return () => clearTimeout(timer); // Cleanup timer
-        }
-    }, [showToast]);
 
     return (
         <div>
@@ -115,21 +110,12 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-            {showToast && (
-                <div
-                    className="toast show position-fixed bottom-0 end-0 m-3"
-                    role="alert"
-                    aria-live="assertive"
-                    aria-atomic="true"
-                >
-                    <div className={`toast-header ${error ? "bg-danger" : "bg-success"} text-white`}>
-                        <strong className="me-auto">Login</strong>
-                    </div>
-                    <div className="toast-body">
-                        {error || message}
-                    </div>
-                </div>
-            )}
+            <ShowToast
+                show={showToast}
+                message={error || message}
+                type={toastType}
+                onClose={() => setShowToast(false)}
+            />
         </div>
     );
 };

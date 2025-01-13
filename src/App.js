@@ -25,8 +25,6 @@ function App() {
   useEffect(() => {
     async function fetchTrips() {
       const fetchedTrips = await getAllTrips();
-      console.log(fetchTrips)
-      console.log("start app!")
       if (Array.isArray(fetchedTrips)) {
         setTrips(fetchedTrips);
       } else {

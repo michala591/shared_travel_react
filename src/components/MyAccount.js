@@ -30,6 +30,7 @@ function MyAccountPage() {
   function logout() {
     setLogin(null)
     setToken(localStorage.removeItem("token"))
+    setMyTrips("")
     navigate("/")
   }
 

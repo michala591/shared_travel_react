@@ -333,3 +333,11 @@ body {
   /* Ensures it remains black on hover */
   font-weight: bold
 }
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1055; /* Ensure it's above most other elements */
+  min-width: 300px; /* Optional: Make it wider for better visibility */
+}

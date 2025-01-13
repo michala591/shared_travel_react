@@ -4,6 +4,7 @@ import TripsContext from '../TripsContext'
 import UserContext from '../UserContext';
 import TokenContext from '../TokenContext';
 import TripDetail from './TripDetail';
+import ShowToast from './ShowToast';
 
 function Trips() {
     const { trips, setTrips } = useContext(TripsContext)
@@ -11,6 +12,9 @@ function Trips() {
     const { token, setToken } = useContext(TokenContext)
     const [error, setError] = useState('');
     const [letter, setLetter] = useState('');
+    const [message, setMessage] = useState("");
+    const [showToast, setShowToast] = useState(false);
+    const [toastType, setToastType] = useState("");
 
     useEffect(() => {
         searchTrip()
@@ -28,7 +32,6 @@ function Trips() {
             }
             if (Array.isArray(response.data)) {
                 setTrips(response.data);
-                console.log(response.data)
             } else {
                 console.error("Expected an array, got:", response.data);
                 setTrips([]); // Prevent .map() error
@@ -37,6 +40,8 @@ function Trips() {
         } catch (error) {
             console.error('Error fetching trips:', error);
             setError('An error occurred while fetching trips. Please try again.');
+            setShowToast("true")
+            setToastType("error")
             setTrips([]); // Set to empty array on error
         }
     }
@@ -47,14 +52,20 @@ function Trips() {
                 const response = await axios.post(`https://shared-travel-proj.onrender.com/${trips[index].id}/invite/`, {}, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                console.log("Successfully joined the trip:", response.data);
-                alert(response.data.status);
+                setMessage(response.data.status);
+                setShowToast("true")
+                setToastType("success")
+
             } catch (error) {
                 if (error.response && error.response.data && error.response.data.error) {
-                    alert(error.response.data.error); // Show server error message
+                    setError(error.response.data.error);
+                    setShowToast("true")
+                    setToastType("error")
                 } else {
                     console.error("Error joining the trip:", error);
-                    alert("An error occurred while trying to join the trip.");
+                    setError("An error occurred while trying to join the trip.");
+                    setShowToast("true")
+                    setToastType("error")
                 }
             }
         }
@@ -89,6 +100,12 @@ function Trips() {
                     null
                 )}
             </div>
+            <ShowToast
+                show={showToast}
+                message={error || message}
+                type={toastType}
+                onClose={() => setShowToast(false)}
+            />
         </>
     )
 }
