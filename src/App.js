@@ -11,6 +11,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Register from './components/Register';
 import TokenContext from './TokenContext';
 import MyTripsContext from './MyTripsContext';
+import SettingUser from './components/SettingUser';
 
 function App() {
   const [login, setLogin] = useState([])

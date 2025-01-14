@@ -8,6 +8,7 @@ import AddTrip from "./AddTrip";
 import MyCar from "./MyCar";
 import MyTripsContext from "../MyTripsContext";
 import axios from "axios";
+import SettingUser from "./SettingUser";
 
 function MyAccountPage() {
   const { login, setLogin } = useContext(UserContext)
@@ -93,7 +94,7 @@ function MyAccountPage() {
           <div id="settings" className="card mt-4">
             <div className="card-header">Settings</div>
             <div className="card-body">
-              <p>Settings content goes here.</p>
+              <SettingUser />
             </div>
           </div>
         </div>
