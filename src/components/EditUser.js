@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
+import UserContext from '../UserContext';
+import TokenContext from '../TokenContext';
 
 function EditUser({ user, getUser, closeModal }) {
+    const { login } = useContext(UserContext);
+    const { token } = useContext(TokenContext);
+
     const [formData, setFormData] = useState({
         username: user.username,
         email: user.email,
@@ -20,8 +25,8 @@ function EditUser({ user, getUser, closeModal }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`https://shared-travel-proj.onrender.com/users/${user.id}/`, formData, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            await axios.put(`https://shared-travel-proj.onrender.com/users/${login.user_id}/`, {
+                headers: { Authorization: `Bearer ${token}` },
             });
             alert('User updated successfully!');
             getUser(); // Refresh user data
