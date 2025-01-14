@@ -5,6 +5,7 @@ import UserContext from '../UserContext';
 import TokenContext from '../TokenContext';
 import TripDetail from './TripDetail';
 import ShowToast from './ShowToast';
+import { getLocations } from '../api';
 
 function Trips() {
     const { trips, setTrips } = useContext(TripsContext)
@@ -12,11 +13,13 @@ function Trips() {
     const { token, setToken } = useContext(TokenContext)
     const [error, setError] = useState('');
     const [letter, setLetter] = useState('');
+    const [originList, setOriginList] = useState([]);
     const [message, setMessage] = useState("");
     const [showToast, setShowToast] = useState(false);
     const [toastType, setToastType] = useState("");
 
     useEffect(() => {
+        getLocations()
         searchTrip()
     }, [letter])
 
@@ -31,7 +34,10 @@ function Trips() {
                 });
             }
             if (Array.isArray(response.data)) {
-                setTrips(response.data);
+                const tripsFound = response.data
+                setTrips(tripsFound);
+                const origins = tripsFound.map(trip => trip.origin_station);
+                setOriginList(origins);
             } else {
                 console.error("Expected an array, got:", response.data);
                 setTrips([]); // Prevent .map() error

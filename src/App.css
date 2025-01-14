@@ -1,11 +1,33 @@
 .navbar {
   background-color: #34495e;
+  /* Your custom background color */
 }
 
 .navbar a.navbar-brand {
+  color: white;
   font-weight: bold;
   font-size: 1.5rem;
   margin-left: 2rem;
+  /* Spacing for the brand */
+}
+
+.navbar .nav-link {
+  color: white;
+  /* Set link color to white */
+}
+
+.navbar .nav-link:hover {
+  color: #f39c12;
+  /* Highlight color on hover */
+}
+
+.navbar-toggler {
+  border-color: white;
+  /* White border for toggler button */
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(255, 255, 255, 0.7)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
 
@@ -338,6 +360,8 @@ body {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  z-index: 1055; /* Ensure it's above most other elements */
-  min-width: 300px; /* Optional: Make it wider for better visibility */
+  z-index: 1055;
+  /* Ensure it's above most other elements */
+  min-width: 300px;
+  /* Optional: Make it wider for better visibility */
 }
