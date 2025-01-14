@@ -33,7 +33,7 @@ function SettingUser() {
         getUser();
     }, [login?.user_id, token]);
 
-    const openEditModal = (user) => {
+    const openEditModal = () => {
         setIsEditing(true);
     };
 
