@@ -6,6 +6,7 @@ import TokenContext from '../TokenContext';
 import TripDetail from './TripDetail';
 import ShowToast from './ShowToast';
 import { getLocations } from '../api';
+import Search from './Search.js';
 
 function Trips() {
     const { trips, setTrips } = useContext(TripsContext)
@@ -81,22 +82,7 @@ function Trips() {
         <>
 
             <div class="container mt-5 pt-5">
-                <div class="search-section">
-                    <div class="col-md-8">
-                        <input value={letter} onChange={(e) => setLetter(e.target.value)} class="form-control search-input"
-                            placeholder="Search trips by city or zone" />
-                        {letter.trim() !== '' && originList.length > 0 && (
-                            <ul className="dropdown-menu show w-100 mt-1">
-                                {originList.map((origin, index) => (
-                                    <li key={index} className="dropdown-item">
-                                        {origin.city} - {origin.zone}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </div>
-                    <i className="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-                </div>
+                <Search letter={letter} setLetter={setLetter} originList={originList} />
             </div>
             <div className="trips-list">
                 {trips.length > 0 ? (
