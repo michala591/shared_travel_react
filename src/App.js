@@ -12,6 +12,8 @@ import Register from './components/Register';
 import TokenContext from './TokenContext';
 import MyTripsContext from './MyTripsContext';
 import SettingUser from './components/SettingUser';
+import About from './components/About';
+import HowItWork from './components/HowItWork';
 
 function App() {
   const [login, setLogin] = useState([])
@@ -68,9 +70,11 @@ function App() {
                 <Navbar />
                 <Routes>
                   <Route path="/" element={<Trips />} />
+                  <Route path="/about" element={<About />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/account" element={<MyAccount />} />
                   <Route path="/register" element={<Register />} />
+                  <Route path="/howitwork" element={<HowItWork />} />
                 </Routes>
               </MyTripsContext.Provider>
             </TripsContext.Provider>

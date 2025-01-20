@@ -27,7 +27,10 @@ function Navbar() {
                             <Link to="/" className="nav-link">Home</Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/#" id="AboutLink">About</a>
+                            <Link to="/howitwork" className="nav-link">How It Work</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to="/about" className="nav-link">About</Link>
                         </li>
                         <li className="nav-item">
                             {login && login.name ? (
@@ -36,7 +39,7 @@ function Navbar() {
                                 </Link>
                             ) : (
                                 <Link to="/login" className="nav-link">
-                                    Login
+                                    Login/Register
                                 </Link>
                             )}
                         </li>
