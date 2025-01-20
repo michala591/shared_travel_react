@@ -23,10 +23,10 @@ function Search({ letter, setLetter, originList }) {
                                 <li
                                     key={index}
                                     className="dropdown-item"
-                                    onClick={() => handleCityClick(origin.city)}
+                                    onClick={() => handleCityClick(origin.zone)}
                                     style={{ cursor: 'pointer' }}
                                 >
-                                    {origin.city}
+                                    {origin.city}, {origin.zone}
                                 </li>
                             ))}
                         </ul>
