@@ -151,8 +151,14 @@
 }
 
 body {
-  background-color: #f8f9fa;
   font-family: 'Arial', sans-serif;
+  background-image: url(../background.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: top center; /* Moves the image to the top center */
+  margin: 0;
+  padding: 0;
 }
 
 .card {

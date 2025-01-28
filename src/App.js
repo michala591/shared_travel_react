@@ -14,6 +14,7 @@ import MyTripsContext from './MyTripsContext';
 import SettingUser from './components/SettingUser';
 import About from './components/About';
 import HowItWork from './components/HowItWork';
+import Footer from './components/Footer';
 
 function App() {
   const [login, setLogin] = useState([])
@@ -81,6 +82,7 @@ function App() {
           </TokenContext.Provider>
         </UserContext.Provider>
       </BrowserRouter>
+      <Footer />
       {showScrollButton && (
         <button
           className="scroll-to-top-btn"

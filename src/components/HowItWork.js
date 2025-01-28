@@ -35,6 +35,9 @@ function HowItWork() {
                                 <li className="list-group-item">Delete trips.</li>
                                 <li className="list-group-item">View passengers assigned to your trips.</li>
                             </ul>
+                            <p className="mt-3">
+                                <strong>If you want to join other trips, you need to register as a passenger.</strong>
+                            </p>
                         </section>
 
                         <section>
